@@ -42,6 +42,7 @@ public class IPv4 extends BasePacket {
         protocolClassMap.put(IpProtocol.ICMP, ICMP.class);
         protocolClassMap.put(IpProtocol.TCP, TCP.class);
         protocolClassMap.put(IpProtocol.UDP, UDP.class);
+        protocolClassMap.put(IpProtocol.IGMP, IGMP.class);
     }
 
     public static final byte IPV4_FLAGS_MOREFRAG = 0x1;
