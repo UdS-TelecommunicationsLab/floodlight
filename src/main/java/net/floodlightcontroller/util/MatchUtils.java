@@ -138,7 +138,7 @@ public class MatchUtils {
 				if (m.isExact(mf)) {
 					mb.setExact(mf, m.get(mf));
 				} else if (m.isPartiallyMasked(mf)) {
-					mb.setMasked(mf, m.getMasked(mf));
+					mb.setMasked((MatchField<?>) mf, m.getMasked(mf));
 				} else {
 					// it's either exact, masked, or wildcarded
 					// itr only contains exact and masked MatchFields
@@ -185,7 +185,7 @@ public class MatchUtils {
 			if (m.isExact(mf)) {
 				mb.setExact(mf, m.get(mf));
 			} else if (m.isPartiallyMasked(mf)) {
-				mb.setMasked(mf, m.getMasked(mf));
+				mb.setMasked((MatchField<?>) mf, m.getMasked(mf));
 			} else {
 				// it's either exact, masked, or wildcarded
 				// itr only contains exact and masked MatchFields
