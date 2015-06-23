@@ -24,8 +24,12 @@ net.floodlightcontroller.loadbalancer.LoadBalancer
 net.floodlightcontroller.linkdiscovery.internal.LinkDiscoveryManager
 net.floodlightcontroller.devicemanager.internal.DeviceManagerImpl
 net.floodlightcontroller.firewall.Firewall
+net.floodlightcontroller.uds.flow.FlowModule
 net.floodlightcontroller.uds.multicast.MulticastModule
+net.floodlightcontroller.uds.packetinspection.RTSPInspector
 net.floodlightcontroller.uds.relaying.RelayModule
+net.floodlightcontroller.uds.routing.RoutingModule
+net.floodlightcontroller.uds.routing.algorithms.DijkstraSSSPAlgorithm
 net.floodlightcontroller.uds.statistics.OfStatistics
 net.floodlightcontroller.uds.statistics.OfDelayManagerService
 net.floodlightcontroller.uds.restlog.RestLogModule

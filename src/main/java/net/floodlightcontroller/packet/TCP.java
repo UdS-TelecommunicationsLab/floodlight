@@ -19,6 +19,8 @@ package net.floodlightcontroller.packet;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.projectfloodlight.openflow.types.IpProtocol;
 import org.projectfloodlight.openflow.types.TransportPort;
@@ -28,6 +30,15 @@ import org.projectfloodlight.openflow.types.TransportPort;
  * @author shudong.zhou@bigswitch.com
  */
 public class TCP extends BasePacket {
+
+    public static Map<TransportPort, Class<? extends IPacket>> decodeMap;
+    public static final TransportPort RTSP_SERVER_PORT = TransportPort.of(554);
+
+    static {
+        TCP.decodeMap = new HashMap<TransportPort, Class<? extends IPacket>>();
+        TCP.decodeMap.put(RTSP_SERVER_PORT, RTSP.class);
+    }
+
     protected TransportPort sourcePort;
     protected TransportPort destinationPort;
     protected int sequence;
@@ -306,8 +317,33 @@ public class TCP extends BasePacket {
             }
         }
 
+        if (TCP.decodeMap.containsKey(this.destinationPort)) {
+            try {
+                this.payload = TCP.decodeMap.get(this.destinationPort).getConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Failure instantiating class", e);
+            }
+        } else if (TCP.decodeMap.containsKey(this.sourcePort)) {
+            try {
+                this.payload = TCP.decodeMap.get(this.sourcePort).getConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Failure instantiating class", e);
+            }
+        } else {
+            this.payload = new Data();
+        }
+        int remLength = bb.limit() - bb.position();
+        try {
+            this.payload = payload.deserialize(data, bb.position(), remLength);
+        } catch (PacketParsingException e) {
+            // So this is probably not a proper payload packet but rather a TCP
+            // meta-packet (e.g. SYN, ACK). Wrap content (if any) in Data
+            // instead of "real" subclass
+            this.payload = new Data();
+            this.payload = payload.deserialize(data, bb.position(), remLength);
+        }
         this.payload = new Data();
-        int remLength = bb.limit()-bb.position();
+        remLength = bb.limit() - bb.position();
         this.payload = payload.deserialize(data, bb.position(), remLength);
         this.payload.setParent(this);
         return this;
