@@ -14,3 +14,7 @@ findbugs-results
 /thrift
 *.idea/*
 *.iml
+SyncDB
+src/main/resources/logback-test.xml
+logback.xml
+src/main/resources/floodlightdefault.properties
