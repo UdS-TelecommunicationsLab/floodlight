@@ -263,6 +263,7 @@ class OFChannelHandler extends IdleStateAwareChannelHandler {
 				// Always handle echos at the channel level!
 				// Echos should only be sent in the complete.
 				case ECHO_REPLY:
+					sendMessageToConnection(m);
 					processOFEchoReply((OFEchoReply)m);
 					break;
 				case ECHO_REQUEST:

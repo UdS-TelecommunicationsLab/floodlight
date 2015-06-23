@@ -31,6 +31,7 @@ import org.projectfloodlight.openflow.protocol.OFBarrierRequest;
 import org.projectfloodlight.openflow.protocol.OFControllerRole;
 import org.projectfloodlight.openflow.protocol.OFDescStatsReply;
 import org.projectfloodlight.openflow.protocol.OFDescStatsRequest;
+import org.projectfloodlight.openflow.protocol.OFEchoReply;
 import org.projectfloodlight.openflow.protocol.OFErrorMsg;
 import org.projectfloodlight.openflow.protocol.OFErrorType;
 import org.projectfloodlight.openflow.protocol.OFExperimenter;
@@ -505,6 +506,10 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 			unhandledMessageReceived(m);
 		}
 
+		void processOFEchoReply(OFEchoReply m) {
+			unhandledMessageReceived(m);
+		}
+		
 		// By default add port status messages to a pending list
 		void processOFPortStatus(OFPortStatus m) {
 			pendingPortStatusMsg.add(m);
@@ -748,6 +753,9 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 				break;
 			case EXPERIMENTER:
 				processOFExperimenter((OFExperimenter) m);
+				break;
+			case ECHO_REPLY:
+				processOFEchoReply((OFEchoReply) m);
 				break;
 			default:
 				illegalMessageReceived(m);
@@ -1204,6 +1212,11 @@ public class OFSwitchHandshakeHandler implements IOFConnectionListener {
 
 		@Override
 		void processOFPacketIn(OFPacketIn m) {
+			dispatchMessage(m);
+		}
+		
+		@Override
+		void processOFEchoReply(OFEchoReply m) {
 			dispatchMessage(m);
 		}
 

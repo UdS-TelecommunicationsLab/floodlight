@@ -26,4 +26,6 @@ net.floodlightcontroller.devicemanager.internal.DeviceManagerImpl
 net.floodlightcontroller.firewall.Firewall
 net.floodlightcontroller.uds.multicast.MulticastModule
 net.floodlightcontroller.uds.relaying.RelayModule
+net.floodlightcontroller.uds.statistics.OfStatistics
+net.floodlightcontroller.uds.statistics.OfDelayManagerService
 net.floodlightcontroller.uds.restlog.RestLogModule
